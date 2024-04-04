@@ -43,7 +43,7 @@
             text-align: center;
             padding: 10px;
             transition: transform 0.5s;
-            pointer-events: auto; /* Added this line */
+            pointer-events: auto;
         }
         .website-link {
             text-decoration: none;
@@ -69,14 +69,17 @@
         }
         .popup {
             display: none;
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, 50%);
             background-color: #fff;
             padding: 20px;
             border: 1px solid #6A6142;
             z-index: 999;
+            cursor: move;
+            width: 400px;
+            box-sizing: border-box;
         }
         .close-btn {
             position: absolute;
@@ -130,7 +133,7 @@
         <div class="floating-rectangle">I make music (do not ask to hear it)</div>
         <div class="floating-rectangle">I am pretty good at Just Dance</div>
         <div class="floating-rectangle">I am also pretty good at DDR</div>
-       <div class="floating-rectangle">I like bad sequels</div>
+        <div class="floating-rectangle">I like bad sequels</div>
         <div class="floating-rectangle">I can knit a sweater</div>
         <div class="floating-rectangle">I host pattern-making workshops</div>
         <div class="floating-rectangle">I can hold my breath for 1 minute</div>
@@ -149,7 +152,7 @@
         </div>
         <div id="popup1" class="popup">
             <span class="close-btn" onclick="hidePopup('popup1')">&times;</span>
-            <p>Helloo Mojo Supermarket! My name is An Huynh and I am a digital weaver and patternmaker. By that, I mean I am a designer in both digital and physical mediums. You can see more of my work on my website (click on the dog)</p>
+            <p>Helloo Mojo Supermarket! My name is An Huynh and I am a digital weaver and patternmaker. Bascially, I am a designer in both digital and physical mediums. You can see more of my work on my website (click on the dog).</p>
         </div>
         <div id="popup3" class="popup">
             <span class="close-btn" onclick="hidePopup('popup3')">&times;</span>
@@ -159,6 +162,13 @@
     <script>
         const floatingRects = document.querySelectorAll('.floating-rectangle');
         const body = document.body;
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
 
         document.addEventListener('mousemove', (event) => {
             const mouseX = event.clientX;
@@ -187,7 +197,11 @@
         });
 
         function showPopup(id) {
-            document.getElementById(id).style.display = "block";
+            const popup = document.getElementById(id);
+            popup.style.display = "block";
+
+            // Make the popup draggable
+            dragElement(popup);
         }
 
         function hidePopup(id) {
@@ -202,9 +216,38 @@
                 }
             }
         });
-    </script>
-</body>
-</html>
+
+        function dragElement(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            const rect = elmnt.getBoundingClientRect();
+
+            elmnt.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = Math.max(-rect.height / 2, Math.min(window.innerHeight - rect.height / 2, elmnt.offsetTop - pos2)) + "px";
+                elmnt.style.left = Math.max(-rect.width / 2, Math.min(window.innerWidth - rect.width / 2, elmnt.offsetLeft - pos1)) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
     </script>
 </body>
 </html>
