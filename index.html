@@ -89,7 +89,7 @@
 <body>
     <div class="floating-container">
         <!-- Added more floating rectangles -->
-        <div class="floating-rectangle">Hello :P</div>
+        <div class="floating-rectangle">Hello Mojo Supermarket :P</div>
         <div class="floating-rectangle">My name is An Huynh</div>
         <div class="floating-rectangle">Click the icons for more info</div>
         <div class="floating-rectangle">I am a patternmaker</div>
@@ -176,8 +176,8 @@
                 const distanceX = mouseX - centerX;
                 const distanceY = mouseY - centerY;
 
-                const moveX = distanceX > 0 ? Math.min(distanceX, 200) : Math.max(distanceX, -200);
-                const moveY = distanceY > 0 ? Math.min(distanceY, 200) : Math.max(distanceY, -200);
+                const moveX = distanceX > 0 ? Math.min(distanceX, 400) : Math.max(distanceX, -400);
+                const moveY = distanceY > 0 ? Math.min(distanceY, 400) : Math.max(distanceY, -400);
 
                 const newX = Math.max(10, Math.min(rectX - moveX, window.innerWidth - rectWidth - 10));
                 const newY = Math.max(10, Math.min(rectY - moveY, window.innerHeight - rectHeight - 10));
@@ -202,6 +202,9 @@
                 }
             }
         });
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
