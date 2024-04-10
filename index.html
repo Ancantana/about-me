@@ -18,7 +18,20 @@
             background-color: #F0FF00;
             color: #6A6142;
             padding: 10px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .speed-option {
+            cursor: pointer;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            padding: 6px 12px;
+            border-radius: 18px;
+            transition: background-color 0.3s;
+        }
+        .speed-option:hover {
+            background-color: #E8E8E8;
         }
         .floating-container {
             position: fixed;
@@ -141,7 +154,9 @@
     </div>
     <div class="content">
         <header class="header">
-            user/hire_me_please_MojoSupermarket_AnHuynh_DesignIntern
+            <span class="speed-option" onclick="setSpeed('normal')">normal speed</span>
+            <div class="header-text">user/hire_me_please_MojoSupermarket_AnHuynh_DesignIntern</div>
+            <span class="speed-option" onclick="setSpeed('light')">mojo speed</span>
         </header>
         <div class="icon-container">
             <img src="original_20eef208776a2bc402fc1ba65f666570.png" alt="Icon 1" class="icon" onclick="showPopup('popup1')">
@@ -169,6 +184,18 @@
         let initialY;
         let xOffset = 0;
         let yOffset = 0;
+        let moveSpeed = 1;
+
+        function setSpeed(speed) {
+            switch (speed) {
+                case 'normal':
+                    moveSpeed = 1;
+                    break;
+                case 'light':
+                    moveSpeed = 4;
+                    break;
+            }
+        }
 
         document.addEventListener('mousemove', (event) => {
             const mouseX = event.clientX;
@@ -186,8 +213,8 @@
                 const distanceX = mouseX - centerX;
                 const distanceY = mouseY - centerY;
 
-                const moveX = distanceX > 0 ? Math.min(distanceX, 400) : Math.max(distanceX, -400);
-                const moveY = distanceY > 0 ? Math.min(distanceY, 400) : Math.max(distanceY, -400);
+                const moveX = (distanceX > 0 ? Math.min(distanceX, 400) : Math.max(distanceX, -400)) * moveSpeed;
+                const moveY = (distanceY > 0 ? Math.min(distanceY, 400) : Math.max(distanceY, -400)) * moveSpeed;
 
                 const newX = Math.max(10, Math.min(rectX - moveX, window.innerWidth - rectWidth - 10));
                 const newY = Math.max(10, Math.min(rectY - moveY, window.innerHeight - rectHeight - 10));
